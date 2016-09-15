@@ -8,6 +8,12 @@ So I decided to write a library that makes it easy to create Alert dialog with s
 
 
 ## Usage
+#### Installation:
+[Download library](https://raw.githubusercontent.com/ralfbox/AndroidQuickDialog/master/downloads/QuickDialog.aar)  
+`File -> New -> New module -> import .JAR/.AAR Package -> pick QuickLibrary.aar -> Finish`
+
+
+##### How to use:
 ```java
 
 	public class MainActivity extends AppCompatActivity {
@@ -42,4 +48,13 @@ So I decided to write a library that makes it easy to create Alert dialog with s
 ```
 	
 	
-	
+## Contact
+    pudelko[dot]rafal[at]gmail[dot]com
+  
+
+## License
+Copyright (c) 2016, Rafal Pudelko
+
+You should but you don't have to mention it in application UI with string **"Used QuickQialog (c) 2016, Rafal Pudelko"** (e.g. in "About" section).
+
+Licensed under the [BSD 3-clause](http://www.opensource.org/licenses/BSD-3-Clause)
