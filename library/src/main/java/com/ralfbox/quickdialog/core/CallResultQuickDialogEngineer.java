@@ -46,7 +46,7 @@ public class CallResultQuickDialogEngineer {
         MethodSearcher methodSearcher = new MethodSearcher(quickDialog.getBaseObjectToCallResult(), methodFilter);
         CallMethodEngineer callMethodEngineer = new CallMethodEngineer(
                 quickDialog.getBaseObjectToCallResult(),
-                methodSearcher, new Object[]{quickDialog, whichButton, quickDialog.getDialog()}
+                methodSearcher, new Object[]{quickDialog, whichButton, quickDialog.getDialog(), quickDialog.getControllerQD()}
         );
 
         try {

@@ -11,8 +11,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.ralfbox.quickdialog.core.CallResultQuickDialogEngineer;
+
+import java.lang.reflect.Constructor;
 
 /**
  * @author Rafal Pudelko
@@ -36,22 +39,30 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
     private static final String ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED = "finish-positive";
     private static final String ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED = "finish-negative";
     private static final String ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED = "finish-neutral";
+    private static final String ARG_CONTROLLER = "controllerQD";
+    private static final String TAG = QuickDialog.class.getSimpleName();
 
     private String requestTag;
     private boolean resultToActivity;
     private String resultFragmentTag;
     private int resultFragmentId;
-
+    private ControllerQD controllerQD;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
+        String controolerNameClass = args.getString(ARG_CONTROLLER);
+        if (controolerNameClass != null)
+            createController(controolerNameClass);
 
         init(args);
+        if (controllerQD != null) controllerQD.onCreate(this, savedInstanceState);
 
         return buildDialog(args).create();
     }
+
+
 
     private void init(Bundle args) {
         setCancelable(args.getBoolean(ARG_CANCELLABLE, true));
@@ -77,7 +88,20 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
         if ( (tmp = bundle.getCharSequence(ARG_POSITIVE_BUTTON)) != null) ret.setPositiveButton(tmp, this);
         if ( (tmp = bundle.getCharSequence(ARG_NEGATIVE_BUTTON)) != null) ret.setNegativeButton(tmp, this);
         if ( (tmp = bundle.getCharSequence(ARG_NEUTRAL_BUTTON)) != null) ret.setNeutralButton(tmp, this);
+        if (controllerQD != null) ret = controllerQD.onCreateBuilder(ret);
         return ret;
+    }
+
+    @Override
+    public void onPause() {
+        if (controllerQD != null) controllerQD.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (controllerQD != null) controllerQD.onResume();
     }
 
     @Override
@@ -92,7 +116,7 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
     }
 
     public Object getBaseObjectToCallResult() {
-        if (isResultToActivity()) return getActivity();
+        if (resultToActivity) return getActivity();
         if (resultFragmentTag != null)
             return getFragmentManager().findFragmentByTag(resultFragmentTag);
         return getFragmentManager().findFragmentById(resultFragmentId);
@@ -102,19 +126,35 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
         return requestTag;
     }
 
-    public boolean isResultToActivity() {
-        return resultToActivity;
+
+
+    private void createController(String controllerNameClass) {
+        try {
+            Class<?> c = Class.forName(controllerNameClass);
+            Constructor constructor = c.getConstructor();
+            Object obj = constructor.newInstance();
+            controllerQD = (ControllerQD) obj;
+
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Can not found ControllerQD class: " + controllerNameClass);
+
+        } catch (NoSuchMethodException e) {
+            Log.e(TAG, "Controller must have a constructor without parameters, and must be a public static class, " + e.getMessage());
+
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "Controller constructor must be a public");
+
+        } catch (ClassCastException e) {
+            Log.e(TAG, "The controller must inherit " + ControllerQD.class.getSimpleName());
+
+        } catch (Exception e) {
+            Log.e(TAG, null, e);
+        }
     }
 
-    public String getResultFragmentTag() {
-        return resultFragmentTag;
+    public ControllerQD getControllerQD() {
+        return controllerQD;
     }
-
-    public int getResultFragmentId() {
-        return resultFragmentId;
-    }
-
-
 
 
     public static class Builder{
@@ -200,6 +240,11 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
 
         public Builder cancelable(boolean cancelable) {
             bundle.putBoolean(ARG_CANCELLABLE, cancelable);
+            return this;
+        }
+
+        public Builder controller(Class<? extends ControllerQD> controllerClass){
+            bundle.putString(ARG_CONTROLLER, controllerClass.getName());
             return this;
         }
 
