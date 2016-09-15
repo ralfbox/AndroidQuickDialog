@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ralfbox.quickdialog.QuickDialog;
-import com.ralfbox.quickdialog.annotations.NegativeButtonQD;
-import com.ralfbox.quickdialog.annotations.PositiveButtonQD;
+import com.ralfbox.quickdialog.NegativeButtonQD;
+import com.ralfbox.quickdialog.PositiveButtonQD;
 
 public class MainActivity extends AppCompatActivity {
 

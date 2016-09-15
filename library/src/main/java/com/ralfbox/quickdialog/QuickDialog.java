@@ -33,6 +33,9 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
     private static final String ARG_FRAGMENT_TAG = "fragment-tag";
 
     private static final String ARG_REQUEST_TAG = "tag-quick-alert";
+    private static final String ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED = "finish-positive";
+    private static final String ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED = "finish-negative";
+    private static final String ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED = "finish-neutral";
 
     private String requestTag;
     private boolean resultToActivity;
@@ -74,13 +77,18 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
         if ( (tmp = bundle.getCharSequence(ARG_POSITIVE_BUTTON)) != null) ret.setPositiveButton(tmp, this);
         if ( (tmp = bundle.getCharSequence(ARG_NEGATIVE_BUTTON)) != null) ret.setNegativeButton(tmp, this);
         if ( (tmp = bundle.getCharSequence(ARG_NEUTRAL_BUTTON)) != null) ret.setNeutralButton(tmp, this);
-
         return ret;
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        new CallResultQuickDialogEngineer(this, which).execute();
+        if (    (which == DialogInterface.BUTTON_POSITIVE && getArguments().getBoolean(ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED, false)) ||
+                (which == DialogInterface.BUTTON_NEGATIVE && getArguments().getBoolean(ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED, false)) ||
+                (which == DialogInterface.BUTTON_NEUTRAL && getArguments().getBoolean(ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED, false))){
+            getActivity().finish();
+        }else{
+            new CallResultQuickDialogEngineer(this, which).execute();
+        }
     }
 
     public Object getBaseObjectToCallResult() {
@@ -173,6 +181,21 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
 
         public Builder neutralButton(@StringRes int neutralButton) {
             return neutralButton(getText(neutralButton));
+        }
+
+        public Builder finishActivityIfPositiveBTClicked(){
+            bundle.putBoolean(ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED, true);
+            return this;
+        }
+
+        public Builder finishActivityIfNegativeBTClicked(){
+            bundle.putBoolean(ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED, true);
+            return this;
+        }
+
+        public Builder finishActivityIfNeutralBTClicked(){
+            bundle.putBoolean(ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED, true);
+            return this;
         }
 
         public Builder cancelable(boolean cancelable) {

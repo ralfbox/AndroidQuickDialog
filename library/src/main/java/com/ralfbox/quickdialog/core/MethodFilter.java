@@ -2,9 +2,9 @@ package com.ralfbox.quickdialog.core;
 
 import android.support.annotation.Nullable;
 
-import com.ralfbox.quickdialog.annotations.NegativeButtonQD;
-import com.ralfbox.quickdialog.annotations.NeutralButtonQD;
-import com.ralfbox.quickdialog.annotations.PositiveButtonQD;
+import com.ralfbox.quickdialog.NegativeButtonQD;
+import com.ralfbox.quickdialog.NeutralButtonQD;
+import com.ralfbox.quickdialog.PositiveButtonQD;
 
 import java.lang.reflect.Method;
 

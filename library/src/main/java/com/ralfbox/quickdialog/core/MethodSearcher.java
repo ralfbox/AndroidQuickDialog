@@ -27,6 +27,7 @@ class MethodSearcher {
             if (filter.isThisMethod(m))
                 return m;
         }
+
         return null;
     }
 

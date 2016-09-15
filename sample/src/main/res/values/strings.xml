@@ -15,4 +15,5 @@
     <string name="callToActivity">Call to activity!</string>
     <string name="clickedOK">Clicked OK!</string>
     <string name="clickedCancel">Clicked cancel!</string>
+    <string name="coutersButtonText">positive: %1$1d | negative: %2$1d</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.ralfbox.quickdialog.annotations;
+package com.ralfbox.quickdialog;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,8 +9,9 @@ import java.lang.annotation.Target;
  * @author Rafal Pudelko
  *         Created by Admin on 30.08.2016.
  */
-@Target({ElementType.METHOD})
+
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NegativeButtonQD {
+public @interface NeutralButtonQD {
     String value();
 }

@@ -1,5 +1,11 @@
-# AndroidQuickDialog
+# Xamarin AndroidQuickDialog
 Andorid library to the creation of dialogs. With this library can be created very quickly while keeping the code clean.
+
+## Motivation
+In the operating system Andorid creating the alert dialog that have support for screen rotation is very tiring. To create this we need to create a new static class based on DialogFragment and in it AlertDialog. When we get an answer to the Activity once again we have to write quite a lot of code. We need to call getActivity (), then cast it to the appropriate class, and then call the appropriate method. An even greater problem is when we want to answer to fragment. It is very sluggish!
+So I decided to write a library that makes it easy to create Alert dialog with support for screen rotation and returning responses to the Activity or Fragment.
+
+
 
 ## Usage
 ```java

@@ -1,5 +1,6 @@
-package com.ralfbox.quickdialog.annotations;
+package com.ralfbox.quickdialog;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -18,7 +19,7 @@ import static java.lang.annotation.ElementType.TYPE;
 
 
 
-@Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PositiveButtonQD {
     String value();
