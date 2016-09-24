@@ -18,16 +18,12 @@ public abstract class ControllerQD {
         return onCreateBuilder(builder);
     }
 
-    public void onResume(){
+    public void onResume(){ }
 
-    }
+    public void onPause(){ }
 
-    public void onPause(){
+    public void onCreate(QuickDialog quickDialog, Bundle savedInstanceState) { }
 
-    }
-
-    public void onCreate(QuickDialog quickDialog, Bundle savedInstanceState) {
-
-    }
+    public void onSaveInstanceState(Bundle outState){ }
 
 }

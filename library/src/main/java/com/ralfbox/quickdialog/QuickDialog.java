@@ -59,7 +59,7 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
         init(args);
         if (controllerQD != null) controllerQD.onCreate(this, savedInstanceState);
 
-        return buildDialog(args).create();
+        return buildDialog(savedInstanceState, args).create();
     }
 
 
@@ -74,22 +74,30 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
         }
     }
 
-    private AlertDialog.Builder buildDialog(Bundle bundle){
+    private AlertDialog.Builder buildDialog(Bundle savedInstanceState, Bundle args){
         CharSequence tmp;
-        //MyBundle bundle = new MyBundle(getContext(), args);
+        //MyBundle args = new MyBundle(getContext(), args);
 
-        AlertDialog.Builder ret = bundle.containsKey(ARG_STYLE) ?
-                new AlertDialog.Builder(getActivity(), bundle.getInt(ARG_STYLE)) :
+        AlertDialog.Builder ret = args.containsKey(ARG_STYLE) ?
+                new AlertDialog.Builder(getActivity(), args.getInt(ARG_STYLE)) :
                 new AlertDialog.Builder(getActivity());
 
-        if ( (tmp = bundle.getCharSequence(ARG_TITLE)) != null) ret.setTitle(tmp);
-        if ( (tmp = bundle.getCharSequence(ARG_MESSAGE)) != null) ret.setMessage(tmp);
+        if ( (tmp = args.getCharSequence(ARG_TITLE)) != null) ret.setTitle(tmp);
+        if ( (tmp = args.getCharSequence(ARG_MESSAGE)) != null) ret.setMessage(tmp);
 
-        if ( (tmp = bundle.getCharSequence(ARG_POSITIVE_BUTTON)) != null) ret.setPositiveButton(tmp, this);
-        if ( (tmp = bundle.getCharSequence(ARG_NEGATIVE_BUTTON)) != null) ret.setNegativeButton(tmp, this);
-        if ( (tmp = bundle.getCharSequence(ARG_NEUTRAL_BUTTON)) != null) ret.setNeutralButton(tmp, this);
-        if (controllerQD != null) ret = controllerQD.onCreateBuilder(ret);
+        if ( (tmp = args.getCharSequence(ARG_POSITIVE_BUTTON)) != null) ret.setPositiveButton(tmp, this);
+        if ( (tmp = args.getCharSequence(ARG_NEGATIVE_BUTTON)) != null) ret.setNegativeButton(tmp, this);
+        if ( (tmp = args.getCharSequence(ARG_NEUTRAL_BUTTON)) != null) ret.setNeutralButton(tmp, this);
+        if (controllerQD != null)
+            ret = controllerQD.onCreateBuilder(ret, savedInstanceState);
         return ret;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (controllerQD != null)
+            controllerQD.onSaveInstanceState(outState);
     }
 
     @Override
