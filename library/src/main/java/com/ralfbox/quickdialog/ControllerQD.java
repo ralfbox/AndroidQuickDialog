@@ -9,8 +9,13 @@ import android.support.v7.app.AlertDialog;
  */
 public abstract class ControllerQD {
 
+    @Deprecated
     public AlertDialog.Builder onCreateBuilder(AlertDialog.Builder builder) {
         return builder;
+    }
+
+    public AlertDialog.Builder onCreateBuilder(AlertDialog.Builder builder, Bundle savedInstanceState){
+        return onCreateBuilder(builder);
     }
 
     public void onResume(){

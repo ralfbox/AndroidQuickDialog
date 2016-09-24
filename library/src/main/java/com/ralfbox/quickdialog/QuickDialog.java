@@ -23,23 +23,23 @@ import java.lang.reflect.Constructor;
  */
 public class QuickDialog extends DialogFragment implements DialogInterface.OnClickListener{
 
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_MESSAGE = "message";
-    private static final String ARG_CANCELLABLE = "cancellable";
-    private static final String ARG_POSITIVE_BUTTON = "bt-positive";
-    private static final String ARG_NEGATIVE_BUTTON = "bt-negative";
-    private static final String ARG_NEUTRAL_BUTTON = "bt-neutral";
-    private static final String ARG_STYLE = "style";
+    private static final String ARG_TITLE = "qd-title";
+    private static final String ARG_MESSAGE = "qd-message";
+    private static final String ARG_CANCELLABLE = "qd-cancellable";
+    private static final String ARG_POSITIVE_BUTTON = "qd-bt-positive";
+    private static final String ARG_NEGATIVE_BUTTON = "qd-bt-negative";
+    private static final String ARG_NEUTRAL_BUTTON = "qd-bt-neutral";
+    private static final String ARG_STYLE = "qd-style";
 
-    private static final String ARG_RESULT_TO_ACTIVITY = "resutl-to-activity";
-    private static final String ARG_FRAGMENT_ID = "fragment-id";
-    private static final String ARG_FRAGMENT_TAG = "fragment-tag";
+    private static final String ARG_RESULT_TO_ACTIVITY = "qd-resutl-to-activity";
+    private static final String ARG_FRAGMENT_ID = "qd-fragment-id";
+    private static final String ARG_FRAGMENT_TAG = "qd-fragment-tag";
 
-    private static final String ARG_REQUEST_TAG = "tag-quick-alert";
-    private static final String ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED = "finish-positive";
-    private static final String ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED = "finish-negative";
-    private static final String ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED = "finish-neutral";
-    private static final String ARG_CONTROLLER = "controllerQD";
+    private static final String ARG_REQUEST_TAG = "qd-tag-quick-alert";
+    private static final String ARG_FINISH_ACTIVITY_IF_POSITIVE_CLICKED = "qd-finish-positive";
+    private static final String ARG_FINISH_ACTIVITY_IF_NEGATIVE_CLICKED = "qd-finish-negative";
+    private static final String ARG_FINISH_ACTIVITY_IF_NEUTRAL_CLICKED = "qd-finish-neutral";
+    private static final String ARG_CONTROLLER = "qd-controllerQD";
     private static final String TAG = QuickDialog.class.getSimpleName();
 
     private String requestTag;
@@ -245,6 +245,25 @@ public class QuickDialog extends DialogFragment implements DialogInterface.OnCli
 
         public Builder controller(Class<? extends ControllerQD> controllerClass){
             bundle.putString(ARG_CONTROLLER, controllerClass.getName());
+            return this;
+        }
+
+        public Bundle getBundle(){
+            return bundle;
+        }
+
+        public Builder putAnyCharSequence(String key, CharSequence value) {
+            bundle.putCharSequence(key, value);
+            return this;
+        }
+
+        public Builder putAnyString(String key, String value) {
+            bundle.putString(key, value);
+            return this;
+        }
+
+        public Builder putAnyInt(String key, int value) {
+            bundle.putInt(key, value);
             return this;
         }
 
